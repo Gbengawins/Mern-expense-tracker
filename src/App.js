@@ -6,7 +6,6 @@ function App () {
     amount: 0,
     description: "",
     date: "",
-    
   });
 
 
@@ -14,9 +13,11 @@ function App () {
     e.preventDefault();
     const res = await fetch("http://localhost:5556/transaction", {
       method: "POST",
-      body: form,
+      body: JSON.stringify(form),
+      headers: { 'Content-Type': 'application/json' },
     });
-    console.log(res.json());
+    const data = await res.json();
+    console.log(data);
   }
 
   function handleInput(e) {
@@ -48,6 +49,23 @@ function App () {
         />
         <button type="submit">Submit</button>
       </form>
+      <br />
+      <section>
+        <table>
+          <thead>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Date</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Amount</td>
+              <td>Description</td>
+              <td>Date</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }

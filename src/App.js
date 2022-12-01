@@ -1,15 +1,21 @@
 import React, {useState, useEffect} from 'react';
 
 
+const InitialForm = {
+  amount: 0,
+  description: "",
+  date: "",
+};
+
+
 function App () {
-  const [ form, setForm ] = useState({
-    amount: 0,
-    description: "",
-    date: "",
-  });
+  const [ form, setForm ] = useState(InitialForm);
 
   const [ transactions, setTransactions ] = useState([]);
 
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   async function fetchTransactions() {
     const res = await fetch("http://localhost:5556/transaction");
@@ -17,7 +23,10 @@ function App () {
     setTransactions(data);
   }
 
-  useEffect(() => { }, [])
+
+ function handleInput(e) {
+   setForm({ ...form, [e.target.name]: e.target.value });
+ }
 
   async function handleSubmit (e) {
     e.preventDefault();
@@ -30,15 +39,13 @@ function App () {
     });
     // const data = await res.json();
     if (res.ok) { 
+      setForm(InitialForm);
       fetchTransactions();
 
     }
   }
 
-  function handleInput(e) {
-    setForm({...form, [e.target.name]: e.target.value});
-  }
-
+ 
   return (
     <div className="App">
       <form onSubmit={handleSubmit}>

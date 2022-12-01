@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
 function App () {
@@ -8,6 +8,11 @@ function App () {
     date: "",
   });
 
+  async function fetchTransaction() {
+    const res = await fetch("http://localhost:5556/transaction");
+    const data = await res.json();
+  }
+  useEffect(() => { }, [])
 
   async function handleSubmit (e) {
     e.preventDefault();
